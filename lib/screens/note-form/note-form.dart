@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:notes_app/models/note.dart';
+import 'package:notes_app/models/user.dart';
 import 'package:notes_app/screens/shared/loading.dart';
 import 'package:notes_app/services/notes-service.dart';
+import 'package:provider/provider.dart';
 
 class NoteForm extends StatefulWidget {
   @override
@@ -14,6 +16,8 @@ class _NoteFormState extends State<NoteForm> {
   bool _loading = false;
   @override
   Widget build(BuildContext context) {
+
+    final User user = Provider.of<User>(context);
 
     Map data = ModalRoute.of(context).settings.arguments;
     bool isExistNote = data != null && data.containsKey('noteId') ;
@@ -70,7 +74,7 @@ class _NoteFormState extends State<NoteForm> {
                   return;
                 }
                 if(note.id == null) {
-                  note.uid = '0';
+                  note.uid = user.uid;
                   dynamic n =  await NotesService().addNote(note);
                 } else {
                   await NotesService().updateNote(note);
