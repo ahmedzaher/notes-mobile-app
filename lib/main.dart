@@ -7,8 +7,8 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (context) => Home(),
-      '/home': (context) => Wrapper(),
+      '/': (context) => Wrapper(),
+      '/home': (context) => Home(),
       '/note-form': (context) => NoteForm(),
     },
   ));
