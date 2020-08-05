@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/models/note.dart';
+import 'package:notes_app/models/user.dart';
 import 'package:notes_app/services/auth.dart';
 import 'package:notes_app/services/notes-service.dart';
+import 'package:provider/provider.dart';
 
 import 'note_card.dart';
 
@@ -13,8 +15,9 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final User user = Provider.of<User>(context);
     return StreamBuilder<List<Note>>(
-        stream: NotesService().getNotes('0'),
+        stream: NotesService().getNotes(user.uid),
         builder: (context, snapshot) {
           List<Note> notes = snapshot.data ?? [];
           notes.sort((a, b) => b.creationDate.compareTo(a.creationDate));
@@ -25,8 +28,12 @@ class _HomeState extends State<Home> {
               elevation: 0.0,
               actions: [
                 IconButton(
-                    onPressed: () => _logout(),
-                    icon: Icon(Icons.logout, color: Colors.white,),)
+                  onPressed: () => _logout(),
+                  icon: Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                  ),
+                )
               ],
             ),
             body: SafeArea(
